@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Wealth Map</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #388E3C;
+    }
+    .back-btn {
+      margin-top: 20px;
+      background: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin Panel - Wealth Map</h1>
+  </header>
+
+  <div class="container">
+    <h2>Company Registration</h2>
+    <input type="text" id="companyName" placeholder="Company Name" />
+    <input type="email" id="companyEmail" placeholder="Email" />
+    <input type="text" id="companyAddress" placeholder="Address" />
+    <button onclick="submitCompany()">Register Company</button>
+  </div>
+
+  <div class="container">
+    <h2>Employee Onboarding</h2>
+    <input type="text" id="employeeName" placeholder="Employee Name" />
+    <input type="text" id="employeeRole" placeholder="Role" />
+    <input type="email" id="employeeEmail" placeholder="Email" />
+    <button onclick="submitEmployee()">Onboard Employee</button>
+  </div>
+
+  <div class="container">
+    <a href="index.html">
+      <button class="back-btn">⬅ Back to Map</button>
+    </a>
+  </div>
+
+  <script>
+    function submitCompany() {
+      const name = document.getElementById('companyName').value;
+      const email = document.getElementById('companyEmail').value;
+      const address = document.getElementById('companyAddress').value;
+
+      fetch('/api/companies', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, address })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message || 'Company registered'))
+      .catch(err => {
+        console.error("Frontend error:", err);
+        alert("Error registering company");
+      });
+    }
+
+    function submitEmployee() {
+      const name = document.getElementById("employeeName").value;
+      const role = document.getElementById("employeeRole").value;
+      const email = document.getElementById("employeeEmail").value;
+
+      fetch("/api/employees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, role, email })
+      })
+      .then(res => res.json())
+      .then(data => alert(data.message || "Employee onboarded"))
+      .catch(err => {
+        console.error("Frontend error:", err);
+        alert("Error onboarding employee");
+      });
+    }
+  </script>
+</body>
+</html>
